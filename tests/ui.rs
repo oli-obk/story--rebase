@@ -2,13 +2,14 @@ use color_eyre::Result;
 use ui_test::*;
 
 fn main() -> Result<()> {
+    exec("dump")?;
+    exec("step")?;
+    Ok(())
+}
+
+fn exec(name: &str) -> Result<()> {
     let mut program = CommandBuilder::cargo();
-    program.args = vec![
-        "run".into(),
-        "--bin".into(),
-        "dump".into(),
-        "--quiet".into(),
-    ];
+    program.args = vec!["run".into(), "--bin".into(), name.into(), "--quiet".into()];
     program.input_file_flag = Some("--".into());
     program.out_dir_flag = None;
     let mut config = Config {
@@ -31,7 +32,7 @@ fn main() -> Result<()> {
         skip_files: vec![],
         filter_files: vec![],
         threads: None,
-        ..Config::rustc(std::env::current_dir()?.join("tests").join("steps"))
+        ..Config::rustc(std::env::current_dir()?.join("tests").join(name))
     };
 
     config.path_stdout_filter(&std::env::current_dir()?, "DIR");
