@@ -2,12 +2,18 @@ use color_eyre::Result;
 use ui_test::*;
 
 fn main() -> Result<()> {
-    exec("dump")?;
-    exec("step")?;
+    exec("dump", Mode::Pass)?;
+    exec(
+        "step",
+        Mode::Fail {
+            require_patterns: false,
+            rustfix: RustfixMode::Disabled,
+        },
+    )?;
     Ok(())
 }
 
-fn exec(name: &str) -> Result<()> {
+fn exec(name: &str, mode: Mode) -> Result<()> {
     let mut program = CommandBuilder::cargo();
     program.args = vec!["run".into(), "--bin".into(), name.into(), "--quiet".into()];
     program.input_file_flag = Some("--".into());
@@ -15,7 +21,7 @@ fn exec(name: &str) -> Result<()> {
     let mut config = Config {
         host: None,
         target: None,
-        mode: Mode::Pass,
+        mode,
         program,
         cfgs: CommandBuilder {
             program: "asdfasdfasdfasdf".into(),
@@ -38,16 +44,15 @@ fn exec(name: &str) -> Result<()> {
     config.path_stdout_filter(&std::env::current_dir()?, "DIR");
 
     let args = Args::test()?;
-    if !args.quiet {
+    if let Format::Pretty = args.format {
         println!("Compiler: {}", config.program.display());
     }
 
     let name = config.root_dir.display().to_string();
 
-    let text = if args.quiet {
-        status_emitter::Text::quiet()
-    } else {
-        status_emitter::Text::verbose()
+    let text = match args.format {
+        Format::Terse => status_emitter::Text::quiet(),
+        Format::Pretty => status_emitter::Text::verbose(),
     };
     config.with_args(&args, true);
 

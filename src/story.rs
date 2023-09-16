@@ -1,3 +1,5 @@
+use color_eyre::eyre::eyre;
+
 use crate::*;
 use std::{
     collections::{btree_map::Entry, BTreeMap},
@@ -40,6 +42,29 @@ impl Story {
                 Ok(())
             }
         }
+    }
+
+    pub fn print_room(&self) {
+        let room = &self[&self.room.content];
+        println!("{}", room.message.content);
+        for (msg, _next) in &room.choices {
+            println!("[{}]", msg.content);
+        }
+    }
+
+    pub fn choose(&mut self, idx: usize) -> Result<()> {
+        let choices = &self[&self.room.content].choices;
+        self.room = choices
+            .get(idx)
+            .ok_or_else(|| {
+                eyre!(
+                    "chose selection {idx}, but there are only {}",
+                    choices.len()
+                )
+            })?
+            .1
+            .clone();
+        Ok(())
     }
 }
 

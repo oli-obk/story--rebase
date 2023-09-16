@@ -659,9 +659,9 @@ dependencies = [
 
 [[package]]
 name = "ui_test"
-version = "0.20.0"
+version = "0.21.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bfd8fb9b15c8332cf51bfc2dc4830063b2446a9c9d732421b56f2478024a3971"
+checksum = "accffe020b57a6dd50014d457b5842c5a2ca73cd84f07d86d0a19c460a6509ae"
 dependencies = [
  "annotate-snippets",
  "anyhow",
