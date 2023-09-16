@@ -31,18 +31,7 @@ impl std::fmt::Display for Story {
 
         for room in rooms {
             writeln!(f)?;
-            let Room {
-                comment,
-                id,
-                message,
-                choices,
-                message_comment,
-            } = room;
-            writeln!(f, "{comment}## {}", id.content.id())?;
-            writeln!(f, "{message_comment}{}", message.content)?;
-            for (text, target, comment) in choices {
-                writeln!(f, "{comment}{}: {}", target.content.id(), text.content)?;
-            }
+            write!(f, "{}", room)?;
         }
 
         Ok(())

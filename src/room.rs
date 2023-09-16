@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::{span::Spanned, Comment};
 
 #[derive(Debug)]
@@ -34,6 +36,24 @@ impl Room {
             choices: Default::default(),
             message_comment,
         }
+    }
+}
+
+impl Display for Room {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let Room {
+            comment,
+            id,
+            message,
+            choices,
+            message_comment,
+        } = self;
+        writeln!(f, "{comment}## {}", id.content.id())?;
+        writeln!(f, "{message_comment}{}", message.content)?;
+        for (text, target, comment) in choices {
+            writeln!(f, "{comment}{}: {}", target.content.id(), text.content)?;
+        }
+        Ok(())
     }
 }
 
