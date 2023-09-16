@@ -8,7 +8,7 @@ out: gtfo
 corridor: go deeper
 
 ## corridor
-It's dark and your steps echo far ahead of your
+It's dark and your steps echo far ahead of you
 deeper: walk on
 entrance: return
 
