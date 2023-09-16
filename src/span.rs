@@ -17,7 +17,7 @@ impl<T: std::fmt::Debug> std::fmt::Debug for Spanned<T> {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Span {
     file: PathBuf,
     line_start: usize,
@@ -31,8 +31,8 @@ impl std::fmt::Debug for Span {
         write!(f, "{}", self)
     }
 }
-impl Span {
-    pub fn dummy() -> Self {
+impl Default for Span {
+    fn default() -> Self {
         Self {
             file: PathBuf::new(),
             line_start: 0,
@@ -43,8 +43,17 @@ impl Span {
     }
 }
 
+impl Span {
+    pub fn is_dummy(&self) -> bool {
+        self == &Self::default()
+    }
+}
+
 impl Display for Span {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if self.is_dummy() {
+            return write!(f, "DUMMY_SPAN");
+        }
         let Self {
             file,
             line_start,
@@ -118,7 +127,7 @@ impl<T> Spanned<T> {
 
     pub fn dummy(content: T) -> Self {
         Self {
-            span: Span::dummy(),
+            span: Span::default(),
             content,
         }
     }
