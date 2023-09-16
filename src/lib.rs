@@ -1,4 +1,4 @@
-use std::{fmt::Display, path::PathBuf};
+use std::fmt::Display;
 
 use color_eyre::{
     eyre::{bail, ensure, eyre},
@@ -78,9 +78,9 @@ impl std::fmt::Debug for Comment {
         self.0.fmt(f)
     }
 }
-impl Comment {
-    fn empty(path: PathBuf) -> Comment {
-        Self(Spanned::dummy(String::new(), path))
+impl Default for Comment {
+    fn default() -> Comment {
+        Self(Spanned::dummy(String::new()))
     }
 }
 

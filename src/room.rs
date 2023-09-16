@@ -1,7 +1,4 @@
-use crate::{
-    span::{Span, Spanned},
-    Comment,
-};
+use crate::{span::Spanned, Comment};
 
 #[derive(Debug)]
 pub struct Room {
@@ -15,16 +12,10 @@ pub struct Room {
 impl Default for Room {
     fn default() -> Self {
         Self::new(
-            Comment::empty("<the abyss>".into()),
-            Spanned {
-                span: Span::dummy("<the abyss>".into()),
-                content: RoomId::new("the abyss"),
-            },
-            Spanned {
-                content: "You fell off the end of the world",
-                span: Span::dummy("<the abyss>".into()),
-            },
-            Comment::empty("<the abyss>".into()),
+            Comment::default(),
+            Spanned::dummy(RoomId::new("the abyss")),
+            Spanned::dummy("You fell off the end of the world"),
+            Comment::default(),
         )
     }
 }

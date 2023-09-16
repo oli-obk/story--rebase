@@ -32,9 +32,9 @@ impl std::fmt::Debug for Span {
     }
 }
 impl Span {
-    pub fn dummy(file: PathBuf) -> Self {
+    pub fn dummy() -> Self {
         Self {
-            file,
+            file: PathBuf::new(),
             line_start: 0,
             line_end: 0,
             col_start: 0,
@@ -116,9 +116,9 @@ impl<T> Spanned<T> {
         Spanned { content, span }
     }
 
-    pub fn dummy(content: T, file: PathBuf) -> Self {
+    pub fn dummy(content: T) -> Self {
         Self {
-            span: Span::dummy(file),
+            span: Span::dummy(),
             content,
         }
     }
@@ -171,12 +171,7 @@ impl Spanned<String> {
 
                     None
                 } else {
-                    Some((
-                        line,
-                        comment
-                            .map(Comment)
-                            .unwrap_or_else(|| Comment::empty(self.span.file.clone())),
-                    ))
+                    Some((line, comment.map(Comment).unwrap_or_default()))
                 }
             })
     }
