@@ -1,6 +1,7 @@
 //@ compile-flags: --dump-save
 //@ check-pass
 entrance
+
 ## entrance
 You enter a dark cave
 out: gtfo

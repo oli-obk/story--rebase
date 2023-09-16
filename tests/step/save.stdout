@@ -4,8 +4,10 @@ You enter a dark cave
 It's dark and your steps echo far ahead of your
 [walk on]
 [return]
-// Initial Room
+//@ compile-flags: --dump-save
+//@ check-pass
 corridor
+
 ## entrance
 You enter a dark cave
 out: gtfo
@@ -21,5 +23,4 @@ You enter a large cavern with glowing moss on the walls.
 corridor: return
 deeper2: walk on
 crawlspace: explore a small crawlspace to your right
-
 

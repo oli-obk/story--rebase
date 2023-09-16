@@ -1,48 +1,62 @@
 Story {
+    main_comment: DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
     rooms: [
         Room {
-            id: DIR/story--rebase/tests/dump/main.story:2:3 2:11: #entrance,
-            message: DIR/story--rebase/tests/dump/main.story:3:0 3:21: "You enter a dark cave",
+            comment: DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
+            id: DIR/story--rebase/tests/dump/main.story:3:3 3:11: #entrance,
+            message_comment: DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
+            message: DIR/story--rebase/tests/dump/main.story:4:0 4:21: "You enter a dark cave",
             choices: [
                 (
-                    DIR/story--rebase/tests/dump/main.story:4:5 4:9: "gtfo",
-                    DIR/story--rebase/tests/dump/main.story:4:0 4:3: #out,
+                    DIR/story--rebase/tests/dump/main.story:5:5 5:9: "gtfo",
+                    DIR/story--rebase/tests/dump/main.story:5:0 5:3: #out,
+                    DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
                 ),
                 (
-                    DIR/story--rebase/tests/dump/main.story:5:10 5:19: "go deeper",
-                    DIR/story--rebase/tests/dump/main.story:5:0 5:8: #corridor,
+                    DIR/story--rebase/tests/dump/main.story:6:10 6:19: "go deeper",
+                    DIR/story--rebase/tests/dump/main.story:6:0 6:8: #corridor,
+                    DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
                 ),
             ],
         },
         Room {
-            id: DIR/story--rebase/tests/dump/main.story:7:3 7:11: #corridor,
-            message: DIR/story--rebase/tests/dump/main.story:8:0 8:47: "It's dark and your steps echo far ahead of your",
+            comment: DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
+            id: DIR/story--rebase/tests/dump/main.story:8:3 8:11: #corridor,
+            message_comment: DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
+            message: DIR/story--rebase/tests/dump/main.story:9:0 9:47: "It's dark and your steps echo far ahead of your",
             choices: [
                 (
-                    DIR/story--rebase/tests/dump/main.story:9:8 9:15: "walk on",
-                    DIR/story--rebase/tests/dump/main.story:9:0 9:6: #deeper,
+                    DIR/story--rebase/tests/dump/main.story:10:8 10:15: "walk on",
+                    DIR/story--rebase/tests/dump/main.story:10:0 10:6: #deeper,
+                    DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
                 ),
                 (
-                    DIR/story--rebase/tests/dump/main.story:10:10 10:16: "return",
-                    DIR/story--rebase/tests/dump/main.story:10:0 10:8: #entrance,
+                    DIR/story--rebase/tests/dump/main.story:11:10 11:16: "return",
+                    DIR/story--rebase/tests/dump/main.story:11:0 11:8: #entrance,
+                    DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
                 ),
             ],
         },
         Room {
-            id: DIR/story--rebase/tests/dump/main.story:12:3 12:9: #deeper,
-            message: DIR/story--rebase/tests/dump/main.story:13:0 13:56: "You enter a large cavern with glowing moss on the walls.",
+            comment: DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
+            id: DIR/story--rebase/tests/dump/main.story:13:3 13:9: #deeper,
+            message_comment: DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
+            message: DIR/story--rebase/tests/dump/main.story:14:0 14:56: "You enter a large cavern with glowing moss on the walls.",
             choices: [
                 (
-                    DIR/story--rebase/tests/dump/main.story:14:10 14:16: "return",
-                    DIR/story--rebase/tests/dump/main.story:14:0 14:8: #corridor,
+                    DIR/story--rebase/tests/dump/main.story:15:10 15:16: "return",
+                    DIR/story--rebase/tests/dump/main.story:15:0 15:8: #corridor,
+                    DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
                 ),
                 (
-                    DIR/story--rebase/tests/dump/main.story:15:9 15:16: "walk on",
-                    DIR/story--rebase/tests/dump/main.story:15:0 15:7: #deeper2,
+                    DIR/story--rebase/tests/dump/main.story:16:9 16:16: "walk on",
+                    DIR/story--rebase/tests/dump/main.story:16:0 16:7: #deeper2,
+                    DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
                 ),
                 (
-                    DIR/story--rebase/tests/dump/main.story:16:12 16:52: "explore a small crawlspace to your right",
-                    DIR/story--rebase/tests/dump/main.story:16:0 16:10: #crawlspace,
+                    DIR/story--rebase/tests/dump/main.story:17:12 17:52: "explore a small crawlspace to your right",
+                    DIR/story--rebase/tests/dump/main.story:17:0 17:10: #crawlspace,
+                    DIR/story--rebase/tests/dump/main.story:0:0 0:0: "",
                 ),
             ],
         },
@@ -53,7 +67,9 @@ Story {
         #entrance: 0,
     },
     default: Room {
+        comment: <the abyss>:0:0 0:0: "",
         id: <the abyss>:0:0 0:0: #the abyss,
+        message_comment: <the abyss>:0:0 0:0: "",
         message: <the abyss>:0:0 0:0: "You fell off the end of the world",
         choices: [],
     },

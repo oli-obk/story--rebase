@@ -7,6 +7,8 @@ edition = "2021"
 
 [dependencies]
 color-eyre = "0.6.2"
+glob = "0.3.1"
+pretty_assertions = "1.4.0"
 ui_test = "0.21.1"
 
 [[test]]

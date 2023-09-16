@@ -8,6 +8,7 @@ use std::{
 
 #[derive(Debug)]
 pub struct Story {
+    pub main_comment: Comment,
     pub rooms: Vec<Room>,
     pub room_by_name: BTreeMap<RoomId, usize>,
     pub default: Room,
@@ -17,26 +18,29 @@ pub struct Story {
 impl std::fmt::Display for Story {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let Self {
+            main_comment,
             rooms,
             room_by_name: _,
             default: _,
             room,
         } = self;
-        writeln!(f, "// Initial Room")?;
-        writeln!(f, "{}", room.content.id())?;
+
+        writeln!(f, "{main_comment}{}", room.content.id())?;
 
         for room in rooms {
+            writeln!(f)?;
             let Room {
+                comment,
                 id,
                 message,
                 choices,
+                message_comment,
             } = room;
-            writeln!(f, "## {}", id.content.id())?;
-            writeln!(f, "{}", message.content)?;
-            for (text, target) in choices {
-                writeln!(f, "{}: {}", target.content.id(), text.content)?;
+            writeln!(f, "{comment}## {}", id.content.id())?;
+            writeln!(f, "{message_comment}{}", message.content)?;
+            for (text, target, comment) in choices {
+                writeln!(f, "{comment}{}: {}", target.content.id(), text.content)?;
             }
-            writeln!(f)?;
         }
 
         Ok(())
@@ -67,7 +71,7 @@ impl Story {
     pub fn print_room(&self) {
         let room = &self[&self.room.content];
         println!("{}", room.message.content);
-        for (msg, _next) in &room.choices {
+        for (msg, _next, _) in &room.choices {
             println!("[{}]", msg.content);
         }
     }
@@ -87,8 +91,9 @@ impl Story {
         Ok(())
     }
 
-    pub fn new(first_room: Spanned<impl Into<String>>) -> Self {
+    pub fn new((first_room, main_comment): (Spanned<impl Into<String>>, Comment)) -> Self {
         Self {
+            main_comment,
             rooms: Default::default(),
             room_by_name: Default::default(),
             default: Default::default(),

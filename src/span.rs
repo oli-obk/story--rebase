@@ -1,6 +1,8 @@
 use color_eyre::{eyre::Context, Result};
 use std::{fmt::Display, path::PathBuf};
 
+use crate::Comment;
+
 #[derive(Clone)]
 pub struct Spanned<T> {
     pub span: Span,
@@ -98,6 +100,10 @@ impl Spanned<&str> {
         Self { content, span }
     }
 
+    pub fn trim(&self) -> Self {
+        self.trim_start().trim_end()
+    }
+
     pub fn starts_with(&self, pat: &str) -> bool {
         self.content.starts_with(pat)
     }
@@ -108,6 +114,13 @@ impl<T> Spanned<T> {
         let Spanned { content, span } = self;
         let content = f(content);
         Spanned { content, span }
+    }
+
+    pub fn dummy(content: T, file: PathBuf) -> Self {
+        Self {
+            span: Span::dummy(file),
+            content,
+        }
     }
 }
 
@@ -128,14 +141,47 @@ impl Spanned<String> {
             content: story,
         })
     }
-    pub fn lines<'a>(&'a self) -> impl Iterator<Item = Spanned<&'a str>> {
+
+    pub fn lines<'a, 'b>(
+        &'a self,
+        comment_prefix: &'b str,
+    ) -> impl Iterator<Item = (Spanned<&'a str>, Comment)> + Captures<'b> {
         assert_eq!(self.span.col_start, 0);
-        self.content.lines().enumerate().map(|(i, content)| {
-            let mut span = self.span.clone();
-            span.line_start += i;
-            span.line_end = span.line_start;
-            span.col_end = content.chars().count();
-            Spanned { content, span }
-        })
+        let mut prev_comment = None;
+        self.content
+            .lines()
+            .enumerate()
+            .filter_map(move |(i, content)| {
+                let comment: Option<Spanned<String>> = prev_comment.take();
+                let mut span = self.span.clone();
+                span.line_start += i;
+                span.line_end = span.line_start;
+                span.col_end = content.chars().count();
+                let line = Spanned { content, span };
+                if let Some(new_comment) = line.strip_prefix(comment_prefix) {
+                    prev_comment = Some(if let Some(mut comment) = comment {
+                        comment.span.line_end = new_comment.span.line_end;
+                        comment.span.col_end = new_comment.span.col_end;
+                        comment.content.push('\n');
+                        comment.content.push_str(new_comment.content);
+                        comment
+                    } else {
+                        new_comment.map(Into::into)
+                    });
+
+                    None
+                } else {
+                    Some((
+                        line,
+                        comment
+                            .map(Comment)
+                            .unwrap_or_else(|| Comment::empty(self.span.file.clone())),
+                    ))
+                }
+            })
     }
 }
+
+pub trait Captures<'x> {}
+
+impl<'x, T> Captures<'x> for T {}
