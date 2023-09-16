@@ -1,10 +1,9 @@
 use std::fmt::Display;
 
-use crate::{span::Spanned, Comment, Commented};
+use crate::{span::Spanned, Commented};
 
 #[derive(Debug)]
 pub struct Room {
-    pub comment: Comment,
     pub id: Spanned<RoomId>,
     pub message: Commented<Spanned<String>>,
     pub choices: Vec<Commented<Choice>>,
@@ -25,7 +24,6 @@ impl Display for Choice {
 impl Default for Room {
     fn default() -> Self {
         Self::new(
-            Comment::default(),
             Spanned::dummy(RoomId::new("the abyss")),
             Commented::dummy(Spanned::dummy("You fell off the end of the world")),
         )
@@ -33,14 +31,9 @@ impl Default for Room {
 }
 
 impl Room {
-    pub fn new(
-        comment: Comment,
-        id: Spanned<RoomId>,
-        message: Commented<Spanned<impl Into<String>>>,
-    ) -> Self {
+    pub fn new(id: Spanned<RoomId>, message: Commented<Spanned<impl Into<String>>>) -> Self {
         Self {
             id,
-            comment,
             message: message.map(|message| message.map(Into::into)),
             choices: Default::default(),
         }
@@ -50,12 +43,11 @@ impl Room {
 impl Display for Room {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let Room {
-            comment,
             id,
             message,
             choices,
         } = self;
-        writeln!(f, "{comment}## {}", id.content.id())?;
+        writeln!(f, "## {}", id.content.id())?;
         writeln!(f, "{}", message.as_ref().map(|message| &message.content))?;
         for choice in choices {
             writeln!(f, "{choice}")?;

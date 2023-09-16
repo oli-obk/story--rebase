@@ -1,84 +1,90 @@
 Story {
     main_comment: DUMMY_SPAN: "",
     rooms: [
-        Room {
+        Commented {
             comment: DIR/story--rebase/tests/dump/comments.story:3:2 3:8: " hello",
-            id: DIR/story--rebase/tests/dump/comments.story:4:3 4:11: #entrance,
-            message: Commented {
-                comment: DUMMY_SPAN: "",
-                value: DIR/story--rebase/tests/dump/comments.story:5:0 5:21: "You enter a dark cave",
+            value: Room {
+                id: DIR/story--rebase/tests/dump/comments.story:4:3 4:11: #entrance,
+                message: Commented {
+                    comment: DUMMY_SPAN: "",
+                    value: DIR/story--rebase/tests/dump/comments.story:5:0 5:21: "You enter a dark cave",
+                },
+                choices: [
+                    Commented {
+                        comment: DUMMY_SPAN: "",
+                        value: Choice {
+                            message: DIR/story--rebase/tests/dump/comments.story:6:5 6:9: "gtfo",
+                            target: DIR/story--rebase/tests/dump/comments.story:6:0 6:3: #out,
+                        },
+                    },
+                    Commented {
+                        comment: DUMMY_SPAN: "",
+                        value: Choice {
+                            message: DIR/story--rebase/tests/dump/comments.story:7:10 7:19: "go deeper",
+                            target: DIR/story--rebase/tests/dump/comments.story:7:0 7:8: #corridor,
+                        },
+                    },
+                ],
             },
-            choices: [
-                Commented {
-                    comment: DUMMY_SPAN: "",
-                    value: Choice {
-                        message: DIR/story--rebase/tests/dump/comments.story:6:5 6:9: "gtfo",
-                        target: DIR/story--rebase/tests/dump/comments.story:6:0 6:3: #out,
-                    },
-                },
-                Commented {
-                    comment: DUMMY_SPAN: "",
-                    value: Choice {
-                        message: DIR/story--rebase/tests/dump/comments.story:7:10 7:19: "go deeper",
-                        target: DIR/story--rebase/tests/dump/comments.story:7:0 7:8: #corridor,
-                    },
-                },
-            ],
         },
-        Room {
+        Commented {
             comment: DUMMY_SPAN: "",
-            id: DIR/story--rebase/tests/dump/comments.story:9:3 9:11: #corridor,
-            message: Commented {
-                comment: DUMMY_SPAN: "",
-                value: DIR/story--rebase/tests/dump/comments.story:10:0 10:47: "It's dark and your steps echo far ahead of your",
-            },
-            choices: [
-                Commented {
+            value: Room {
+                id: DIR/story--rebase/tests/dump/comments.story:9:3 9:11: #corridor,
+                message: Commented {
                     comment: DUMMY_SPAN: "",
-                    value: Choice {
-                        message: DIR/story--rebase/tests/dump/comments.story:11:8 11:15: "walk on",
-                        target: DIR/story--rebase/tests/dump/comments.story:11:0 11:6: #deeper,
-                    },
+                    value: DIR/story--rebase/tests/dump/comments.story:10:0 10:47: "It's dark and your steps echo far ahead of your",
                 },
-                Commented {
-                    comment: DIR/story--rebase/tests/dump/comments.story:12:2 12:6: " bop",
-                    value: Choice {
-                        message: DIR/story--rebase/tests/dump/comments.story:13:10 13:16: "return",
-                        target: DIR/story--rebase/tests/dump/comments.story:13:0 13:8: #entrance,
+                choices: [
+                    Commented {
+                        comment: DUMMY_SPAN: "",
+                        value: Choice {
+                            message: DIR/story--rebase/tests/dump/comments.story:11:8 11:15: "walk on",
+                            target: DIR/story--rebase/tests/dump/comments.story:11:0 11:6: #deeper,
+                        },
                     },
-                },
-            ],
+                    Commented {
+                        comment: DIR/story--rebase/tests/dump/comments.story:12:2 12:6: " bop",
+                        value: Choice {
+                            message: DIR/story--rebase/tests/dump/comments.story:13:10 13:16: "return",
+                            target: DIR/story--rebase/tests/dump/comments.story:13:0 13:8: #entrance,
+                        },
+                    },
+                ],
+            },
         },
-        Room {
+        Commented {
             comment: DUMMY_SPAN: "",
-            id: DIR/story--rebase/tests/dump/comments.story:15:3 15:9: #deeper,
-            message: Commented {
-                comment: DUMMY_SPAN: "",
-                value: DIR/story--rebase/tests/dump/comments.story:16:0 16:56: "You enter a large cavern with glowing moss on the walls.",
+            value: Room {
+                id: DIR/story--rebase/tests/dump/comments.story:15:3 15:9: #deeper,
+                message: Commented {
+                    comment: DUMMY_SPAN: "",
+                    value: DIR/story--rebase/tests/dump/comments.story:16:0 16:56: "You enter a large cavern with glowing moss on the walls.",
+                },
+                choices: [
+                    Commented {
+                        comment: DUMMY_SPAN: "",
+                        value: Choice {
+                            message: DIR/story--rebase/tests/dump/comments.story:17:10 17:16: "return",
+                            target: DIR/story--rebase/tests/dump/comments.story:17:0 17:8: #corridor,
+                        },
+                    },
+                    Commented {
+                        comment: DUMMY_SPAN: "",
+                        value: Choice {
+                            message: DIR/story--rebase/tests/dump/comments.story:18:9 18:16: "walk on",
+                            target: DIR/story--rebase/tests/dump/comments.story:18:0 18:7: #deeper2,
+                        },
+                    },
+                    Commented {
+                        comment: DUMMY_SPAN: "",
+                        value: Choice {
+                            message: DIR/story--rebase/tests/dump/comments.story:19:12 19:52: "explore a small crawlspace to your right",
+                            target: DIR/story--rebase/tests/dump/comments.story:19:0 19:10: #crawlspace,
+                        },
+                    },
+                ],
             },
-            choices: [
-                Commented {
-                    comment: DUMMY_SPAN: "",
-                    value: Choice {
-                        message: DIR/story--rebase/tests/dump/comments.story:17:10 17:16: "return",
-                        target: DIR/story--rebase/tests/dump/comments.story:17:0 17:8: #corridor,
-                    },
-                },
-                Commented {
-                    comment: DUMMY_SPAN: "",
-                    value: Choice {
-                        message: DIR/story--rebase/tests/dump/comments.story:18:9 18:16: "walk on",
-                        target: DIR/story--rebase/tests/dump/comments.story:18:0 18:7: #deeper2,
-                    },
-                },
-                Commented {
-                    comment: DUMMY_SPAN: "",
-                    value: Choice {
-                        message: DIR/story--rebase/tests/dump/comments.story:19:12 19:52: "explore a small crawlspace to your right",
-                        target: DIR/story--rebase/tests/dump/comments.story:19:0 19:10: #crawlspace,
-                    },
-                },
-            ],
         },
     ],
     room_by_name: {
@@ -87,7 +93,6 @@ Story {
         #entrance: 0,
     },
     default: Room {
-        comment: DUMMY_SPAN: "",
         id: DUMMY_SPAN: #the abyss,
         message: Commented {
             comment: DUMMY_SPAN: "",

@@ -9,7 +9,7 @@ use std::{
 #[derive(Debug)]
 pub struct Story {
     pub main_comment: Comment,
-    pub rooms: Vec<Room>,
+    pub rooms: Vec<Commented<Room>>,
     pub room_by_name: BTreeMap<RoomId, usize>,
     pub default: Room,
     pub room: Spanned<RoomId>,
@@ -39,7 +39,7 @@ impl std::fmt::Display for Story {
 }
 
 impl Story {
-    pub fn create_room(&mut self, room: Room) -> Result<()> {
+    pub fn create_room(&mut self, room: Commented<Room>) -> Result<()> {
         let idx = self.rooms.len();
         let id = room.id.clone();
         self.rooms.push(room);
@@ -105,7 +105,7 @@ impl Index<&RoomId> for Story {
     fn index(&self, index: &RoomId) -> &Self::Output {
         self.room_by_name
             .get(index)
-            .map(|&i| &self.rooms[i])
+            .map(|&i| &self.rooms[i].value)
             .unwrap_or(&self.default)
     }
 }

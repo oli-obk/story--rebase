@@ -47,7 +47,7 @@ fn parse_room<'a>(
         value: header,
     }: Commented<Spanned<&str>>,
     lines: &mut impl Iterator<Item = Commented<Spanned<&'a str>>>,
-) -> Result<Room> {
+) -> Result<Commented<Room>> {
     let Some(header) = header.strip_prefix("##") else {
         bail!("{}: room header must start with ##", header.span)
     };
@@ -55,7 +55,7 @@ fn parse_room<'a>(
     let Some(message) = lines.next() else {
         bail!("{}: trailing room header at end of file", header.span)
     };
-    let mut room = Room::new(comment, id, message);
+    let mut room = Room::new(id, message);
     while let Some(line) = lines.next() {
         if line.is_empty() {
             break;
@@ -72,7 +72,7 @@ fn parse_room<'a>(
         }));
     }
 
-    Ok(room)
+    Ok(comment.with(room))
 }
 
 #[derive(Clone)]
