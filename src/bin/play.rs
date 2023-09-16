@@ -35,6 +35,9 @@ fn main() -> Result<()> {
                     .default(default)
                     .interact_on_opt(&Term::stderr())?;
                 if let Some(idx) = idx {
+                    if idx != default {
+                        steps.clear();
+                    }
                     story.choose(idx)?;
                     break;
                 }
