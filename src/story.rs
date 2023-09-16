@@ -13,6 +13,30 @@ pub struct Story {
     pub room: Spanned<RoomId>,
 }
 
+impl std::fmt::Display for Story {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let Self {
+            rooms,
+            default: _,
+            room,
+        } = self;
+        writeln!(f, "// Initial Room")?;
+        writeln!(f, "{}", room.content.id())?;
+
+        for (id, room) in rooms {
+            writeln!(f, "## {}", id.id())?;
+            let Room { message, choices } = room;
+            writeln!(f, "{}", message.content)?;
+            for (text, target) in choices {
+                writeln!(f, "{}: {}", target.content.id(), text.content)?;
+            }
+            writeln!(f)?;
+        }
+
+        Ok(())
+    }
+}
+
 impl Story {
     pub fn create_room(&mut self, id: Spanned<RoomId>, room: Room) -> Result<()> {
         let Spanned { span, content: id } = id;

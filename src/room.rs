@@ -37,4 +37,7 @@ impl RoomId {
     pub fn new(id: impl Into<String>) -> Self {
         Self(id.into())
     }
+    pub fn id(&self) -> &str {
+        &self.0
+    }
 }
