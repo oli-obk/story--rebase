@@ -3,7 +3,7 @@ use color_eyre::{
     Result,
 };
 use dialoguer::{console::Term, theme::ColorfulTheme, Select};
-use story_rebase::{parse, span::Spanned};
+use story_rebase::{parsing::parse, span::Spanned};
 
 fn main() -> Result<()> {
     let path = std::env::args()

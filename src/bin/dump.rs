@@ -1,5 +1,5 @@
 use color_eyre::Result;
-use story_rebase::{parse, span::Spanned};
+use story_rebase::{parsing::parse, span::Spanned};
 
 fn main() -> Result<()> {
     let path = std::env::args().nth(1).unwrap();

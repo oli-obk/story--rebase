@@ -4,7 +4,7 @@ use color_eyre::{
     eyre::{bail, Context},
     Result,
 };
-use story_rebase::{parse, span::Spanned};
+use story_rebase::{parsing::parse, span::Spanned};
 
 #[test]
 fn roundtrip_all() -> Result<()> {
