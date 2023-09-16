@@ -24,8 +24,14 @@ impl Room {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, PartialOrd, Ord, Clone)]
+#[derive(Eq, PartialEq, PartialOrd, Ord, Clone)]
 pub struct RoomId(String);
+
+impl std::fmt::Debug for RoomId {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "#{}", self.0)
+    }
+}
 
 impl RoomId {
     pub fn new(id: impl Into<String>) -> Self {
