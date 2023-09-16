@@ -1,7 +1,7 @@
 use color_eyre::{eyre::Context, Result};
 use std::{fmt::Display, path::PathBuf};
 
-use crate::Comment;
+use crate::{Comment, Commented};
 
 #[derive(Clone)]
 pub struct Spanned<T> {
@@ -166,7 +166,7 @@ impl Spanned<&str> {
     pub fn lines<'a, 'b>(
         &'a self,
         comment_prefix: &'b str,
-    ) -> impl Iterator<Item = (Spanned<&'a str>, Comment)> + Captures<'b> {
+    ) -> impl Iterator<Item = Commented<Spanned<&'a str>>> + Captures<'b> {
         assert_eq!(self.span.col_start, 0);
         let mut prev_comment = None;
         self.content
@@ -192,7 +192,7 @@ impl Spanned<&str> {
 
                     None
                 } else {
-                    Some((line, comment.map(Comment).unwrap_or_default()))
+                    Some(comment.map(Comment).unwrap_or_default().with(line))
                 }
             })
     }

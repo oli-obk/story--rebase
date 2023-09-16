@@ -62,8 +62,8 @@ impl Story {
     pub fn print_room(&self) {
         let room = &self[&self.room.content];
         println!("{}", room.message.content);
-        for (msg, _next, _) in &room.choices {
-            println!("[{}]", msg.content);
+        for choice in &room.choices {
+            println!("[{}]", choice.value.message.content);
         }
     }
 
@@ -78,18 +78,18 @@ impl Story {
                     choices.len()
                 )
             })?
-            .1
+            .target
             .clone();
         Ok(())
     }
 
-    pub fn new((first_room, main_comment): (Spanned<impl Into<String>>, Comment)) -> Self {
+    pub fn new(first_room: Commented<Spanned<impl Into<String>>>) -> Self {
         Self {
-            main_comment,
+            main_comment: first_room.comment,
             rooms: Default::default(),
             room_by_name: Default::default(),
             default: Default::default(),
-            room: first_room.map(RoomId::new),
+            room: first_room.value.map(RoomId::new),
             choices: Default::default(),
         }
     }

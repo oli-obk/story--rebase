@@ -23,7 +23,7 @@ fn main() -> Result<()> {
                 let items: Vec<_> = room
                     .choices
                     .iter()
-                    .map(|(msg, _, _)| &msg.content)
+                    .map(|choice| &choice.value.message.content)
                     .collect();
                 let default = if let Some(choice) = steps.get(story.choices.len()) {
                     usize::from(*choice)

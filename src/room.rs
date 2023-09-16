@@ -1,14 +1,25 @@
 use std::fmt::Display;
 
-use crate::{span::Spanned, Comment};
+use crate::{span::Spanned, Comment, Commented};
 
 #[derive(Debug)]
 pub struct Room {
     pub comment: Comment,
     pub id: Spanned<RoomId>,
-    pub message_comment: Comment,
+    pub message: Commented<Spanned<String>>,
+    pub choices: Vec<Commented<Choice>>,
+}
+
+#[derive(Debug)]
+pub struct Choice {
     pub message: Spanned<String>,
-    pub choices: Vec<(Spanned<String>, Spanned<RoomId>, Comment)>,
+    pub target: Spanned<RoomId>,
+}
+
+impl Display for Choice {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}: {}", self.target.content.id(), self.message.content)
+    }
 }
 
 impl Default for Room {
@@ -16,8 +27,7 @@ impl Default for Room {
         Self::new(
             Comment::default(),
             Spanned::dummy(RoomId::new("the abyss")),
-            Spanned::dummy("You fell off the end of the world"),
-            Comment::default(),
+            Commented::dummy(Spanned::dummy("You fell off the end of the world")),
         )
     }
 }
@@ -26,15 +36,13 @@ impl Room {
     pub fn new(
         comment: Comment,
         id: Spanned<RoomId>,
-        message: Spanned<impl Into<String>>,
-        message_comment: Comment,
+        message: Commented<Spanned<impl Into<String>>>,
     ) -> Self {
         Self {
             id,
             comment,
-            message: message.map(Into::into),
+            message: message.map(|message| message.map(Into::into)),
             choices: Default::default(),
-            message_comment,
         }
     }
 }
@@ -46,12 +54,11 @@ impl Display for Room {
             id,
             message,
             choices,
-            message_comment,
         } = self;
         writeln!(f, "{comment}## {}", id.content.id())?;
-        writeln!(f, "{message_comment}{}", message.content)?;
-        for (text, target, comment) in choices {
-            writeln!(f, "{comment}{}: {}", target.content.id(), text.content)?;
+        writeln!(f, "{}", message.as_ref().map(|message| &message.content))?;
+        for choice in choices {
+            writeln!(f, "{choice}")?;
         }
         Ok(())
     }

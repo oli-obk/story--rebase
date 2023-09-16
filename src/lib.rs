@@ -1,4 +1,7 @@
-use std::fmt::Display;
+use std::{
+    fmt::{Debug, Display},
+    ops::Deref,
+};
 
 use color_eyre::{
     eyre::{bail, ensure, eyre},
@@ -18,7 +21,7 @@ pub fn parse(file_content: Spanned<&str>) -> Result<Story> {
     let mut story = Story::new(lines.next().ok_or_else(|| {
         eyre!("expected at least one line stating the starting room in the story file")
     })?);
-    let (line, comment) = lines.next().ok_or_else(|| {
+    let line = lines.next().ok_or_else(|| {
         eyre!(
             "{}expected an empty line after the starting room",
             file_content.span
@@ -29,29 +32,31 @@ pub fn parse(file_content: Spanned<&str>) -> Result<Story> {
         "{}expected an empty line after the starting room",
         line.span,
     );
-    assert_eq!(comment.0.content, "");
+    assert_eq!(line.comment.0.content, "");
 
-    while let Some((line, comment)) = lines.next() {
-        let room = parse_room(line, comment, &mut lines)?;
+    while let Some(line) = lines.next() {
+        let room = parse_room(line, &mut lines)?;
         story.create_room(room)?;
     }
     Ok(story)
 }
 
 fn parse_room<'a>(
-    header: Spanned<&str>,
-    comment: Comment,
-    lines: &mut impl Iterator<Item = (Spanned<&'a str>, Comment)>,
+    Commented {
+        comment,
+        value: header,
+    }: Commented<Spanned<&str>>,
+    lines: &mut impl Iterator<Item = Commented<Spanned<&'a str>>>,
 ) -> Result<Room> {
     let Some(header) = header.strip_prefix("##") else {
         bail!("{}: room header must start with ##", header.span)
     };
     let id = header.trim_start().map(|id| RoomId::new(id));
-    let Some((message, msg_comment)) = lines.next() else {
+    let Some(message) = lines.next() else {
         bail!("{}: trailing room header at end of file", header.span)
     };
-    let mut room = Room::new(comment, id, message, msg_comment);
-    while let Some((line, comment)) = lines.next() {
+    let mut room = Room::new(comment, id, message);
+    while let Some(line) = lines.next() {
         if line.is_empty() {
             break;
         }
@@ -61,17 +66,26 @@ fn parse_room<'a>(
                 line.span
             )
         };
-        room.choices.push((
-            message.trim_start().map(Into::into),
-            next.map(RoomId::new),
-            comment,
-        ))
+        room.choices.push(line.comment.with(Choice {
+            message: message.trim_start().map(Into::into),
+            target: next.map(RoomId::new),
+        }));
     }
 
     Ok(room)
 }
 
+#[derive(Clone)]
 pub struct Comment(Spanned<String>);
+
+impl Comment {
+    fn with<T>(self, value: T) -> Commented<T> {
+        Commented {
+            comment: self,
+            value,
+        }
+    }
+}
 
 impl std::fmt::Debug for Comment {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -92,5 +106,48 @@ impl Display for Comment {
             }
         }
         Ok(())
+    }
+}
+
+#[derive(Debug)]
+pub struct Commented<T> {
+    pub comment: Comment,
+    pub value: T,
+}
+
+impl<T> Deref for Commented<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.value
+    }
+}
+
+impl<T> Commented<T> {
+    pub fn map<U>(self, f: impl FnOnce(T) -> U) -> Commented<U> {
+        let Commented { value, comment } = self;
+        let value = f(value);
+        Commented { value, comment }
+    }
+
+    pub fn as_ref(&self) -> Commented<&T> {
+        Commented {
+            comment: self.comment.clone(),
+            value: &self.value,
+        }
+    }
+
+    fn dummy(value: T) -> Commented<T> {
+        Self {
+            comment: Comment::default(),
+            value,
+        }
+    }
+}
+
+impl<T: Display> Display for Commented<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let Self { comment, value } = self;
+        write!(f, "{comment}{value}")
     }
 }
