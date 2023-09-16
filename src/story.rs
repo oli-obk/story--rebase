@@ -13,19 +13,6 @@ pub struct Story {
     pub room: Spanned<RoomId>,
 }
 
-impl Default for Story {
-    fn default() -> Self {
-        Self {
-            rooms: Default::default(),
-            default: Default::default(),
-            room: Spanned {
-                span: Span::dummy("<void>".into()),
-                content: RoomId::new("You forgot to set up an initial room"),
-            },
-        }
-    }
-}
-
 impl Story {
     pub fn create_room(&mut self, id: Spanned<RoomId>, room: Room) -> Result<()> {
         let Spanned { span, content: id } = id;
@@ -65,6 +52,14 @@ impl Story {
             .1
             .clone();
         Ok(())
+    }
+
+    pub fn new(first_room: Spanned<impl Into<String>>) -> Self {
+        Self {
+            rooms: Default::default(),
+            default: Default::default(),
+            room: first_room.map(RoomId::new),
+        }
     }
 }
 

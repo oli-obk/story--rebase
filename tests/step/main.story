@@ -1,5 +1,6 @@
 //@ revisions: go_to_deeper go_to_void invalid_selection parser_error
 //@[go_to_deeper,go_to_void] check-pass
+entrance
 ## entrance
 You enter a dark cave
 out: gtfo

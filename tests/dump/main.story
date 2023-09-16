@@ -1,3 +1,4 @@
+corridor
 ## entrance
 You enter a dark cave
 out: gtfo

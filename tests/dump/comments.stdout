@@ -4,17 +4,17 @@ Story {
             "corridor",
         ): Room {
             message: Spanned {
-                span: DIR/story--rebase/tests/dump/comments.story:8:0 8:47,
+                span: DIR/story--rebase/tests/dump/comments.story:9:0 9:47,
                 content: "It's dark and your steps echo far ahead of your",
             },
             choices: [
                 (
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:9:8 9:15,
+                        span: DIR/story--rebase/tests/dump/comments.story:10:8 10:15,
                         content: "walk on",
                     },
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:9:0 9:6,
+                        span: DIR/story--rebase/tests/dump/comments.story:10:0 10:6,
                         content: RoomId(
                             "deeper",
                         ),
@@ -22,11 +22,11 @@ Story {
                 ),
                 (
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:11:10 11:16,
+                        span: DIR/story--rebase/tests/dump/comments.story:12:10 12:16,
                         content: "return",
                     },
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:11:0 11:8,
+                        span: DIR/story--rebase/tests/dump/comments.story:12:0 12:8,
                         content: RoomId(
                             "entrance",
                         ),
@@ -38,17 +38,17 @@ Story {
             "deeper",
         ): Room {
             message: Spanned {
-                span: DIR/story--rebase/tests/dump/comments.story:14:0 14:56,
+                span: DIR/story--rebase/tests/dump/comments.story:15:0 15:56,
                 content: "You enter a large cavern with glowing moss on the walls.",
             },
             choices: [
                 (
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:15:10 15:16,
+                        span: DIR/story--rebase/tests/dump/comments.story:16:10 16:16,
                         content: "return",
                     },
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:15:0 15:8,
+                        span: DIR/story--rebase/tests/dump/comments.story:16:0 16:8,
                         content: RoomId(
                             "corridor",
                         ),
@@ -56,11 +56,11 @@ Story {
                 ),
                 (
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:16:9 16:16,
+                        span: DIR/story--rebase/tests/dump/comments.story:17:9 17:16,
                         content: "walk on",
                     },
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:16:0 16:7,
+                        span: DIR/story--rebase/tests/dump/comments.story:17:0 17:7,
                         content: RoomId(
                             "deeper2",
                         ),
@@ -68,11 +68,11 @@ Story {
                 ),
                 (
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:17:12 17:52,
+                        span: DIR/story--rebase/tests/dump/comments.story:18:12 18:52,
                         content: "explore a small crawlspace to your right",
                     },
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:17:0 17:10,
+                        span: DIR/story--rebase/tests/dump/comments.story:18:0 18:10,
                         content: RoomId(
                             "crawlspace",
                         ),
@@ -84,17 +84,17 @@ Story {
             "entrance",
         ): Room {
             message: Spanned {
-                span: DIR/story--rebase/tests/dump/comments.story:3:0 3:21,
+                span: DIR/story--rebase/tests/dump/comments.story:4:0 4:21,
                 content: "You enter a dark cave",
             },
             choices: [
                 (
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:4:5 4:9,
+                        span: DIR/story--rebase/tests/dump/comments.story:5:5 5:9,
                         content: "gtfo",
                     },
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:4:0 4:3,
+                        span: DIR/story--rebase/tests/dump/comments.story:5:0 5:3,
                         content: RoomId(
                             "out",
                         ),
@@ -102,11 +102,11 @@ Story {
                 ),
                 (
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:5:10 5:19,
+                        span: DIR/story--rebase/tests/dump/comments.story:6:10 6:19,
                         content: "go deeper",
                     },
                     Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:5:0 5:8,
+                        span: DIR/story--rebase/tests/dump/comments.story:6:0 6:8,
                         content: RoomId(
                             "corridor",
                         ),
@@ -123,7 +123,7 @@ Story {
         choices: [],
     },
     room: Spanned {
-        span: DIR/story--rebase/tests/dump/comments.story:2:3 2:11,
+        span: DIR/story--rebase/tests/dump/comments.story:1:0 1:8,
         content: RoomId(
             "entrance",
         ),
