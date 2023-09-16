@@ -100,6 +100,10 @@ impl Story {
             room: first_room.map(RoomId::new),
         }
     }
+
+    pub fn room(&self) -> &Room {
+        &self[&self.room.content]
+    }
 }
 
 impl Index<&RoomId> for Story {
