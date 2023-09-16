@@ -1,4 +1,4 @@
 Error: chose selection 42, but there are only 2
 
 Location:
-    src/story.rs:47:17
+    src/story.rs

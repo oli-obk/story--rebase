@@ -42,6 +42,8 @@ fn exec(name: &str, mode: Mode) -> Result<()> {
     };
 
     config.path_stdout_filter(&std::env::current_dir()?, "DIR");
+    // Strip line numbers from errors, as they change with any source code change before it
+    config.stderr_filter("(    src/.*\\.rs):[0-9]+:[0-9]+", "$1");
 
     let args = Args::test()?;
     if let Format::Pretty = args.format {
