@@ -25,8 +25,8 @@ pub fn parse(story: Spanned<String>) -> Result<Story> {
     );
 
     while let Some(line) = lines.next() {
-        let (id, room) = parse_room(line, &mut lines)?;
-        story.create_room(id, room)?;
+        let room = parse_room(line, &mut lines)?;
+        story.create_room(room)?;
     }
     Ok(story)
 }
@@ -34,7 +34,7 @@ pub fn parse(story: Spanned<String>) -> Result<Story> {
 fn parse_room<'a>(
     header: Spanned<&str>,
     lines: &mut impl Iterator<Item = Spanned<&'a str>>,
-) -> Result<(Spanned<RoomId>, Room)> {
+) -> Result<Room> {
     let Some(header) = header.strip_prefix("##") else {
         bail!("{}: room header must start with ##", header.span)
     };
@@ -42,7 +42,7 @@ fn parse_room<'a>(
     let Some(message) = lines.next() else {
         bail!("{}: trailing room header at end of file", header.span)
     };
-    let mut room = Room::new(message);
+    let mut room = Room::new(id, message);
     while let Some(line) = lines.next() {
         if line.is_empty() {
             break;
@@ -57,5 +57,5 @@ fn parse_room<'a>(
             .push((message.trim_start().map(Into::into), next.map(RoomId::new)))
     }
 
-    Ok((id, room))
+    Ok(room)
 }

@@ -1,6 +1,21 @@
 Story {
-    rooms: {
-        #corridor: Room {
+    rooms: [
+        Room {
+            id: DIR/story--rebase/tests/dump/main.story:2:3 2:11: #entrance,
+            message: DIR/story--rebase/tests/dump/main.story:3:0 3:21: "You enter a dark cave",
+            choices: [
+                (
+                    DIR/story--rebase/tests/dump/main.story:4:5 4:9: "gtfo",
+                    DIR/story--rebase/tests/dump/main.story:4:0 4:3: #out,
+                ),
+                (
+                    DIR/story--rebase/tests/dump/main.story:5:10 5:19: "go deeper",
+                    DIR/story--rebase/tests/dump/main.story:5:0 5:8: #corridor,
+                ),
+            ],
+        },
+        Room {
+            id: DIR/story--rebase/tests/dump/main.story:7:3 7:11: #corridor,
             message: DIR/story--rebase/tests/dump/main.story:8:0 8:47: "It's dark and your steps echo far ahead of your",
             choices: [
                 (
@@ -13,7 +28,8 @@ Story {
                 ),
             ],
         },
-        #deeper: Room {
+        Room {
+            id: DIR/story--rebase/tests/dump/main.story:12:3 12:9: #deeper,
             message: DIR/story--rebase/tests/dump/main.story:13:0 13:56: "You enter a large cavern with glowing moss on the walls.",
             choices: [
                 (
@@ -30,21 +46,14 @@ Story {
                 ),
             ],
         },
-        #entrance: Room {
-            message: DIR/story--rebase/tests/dump/main.story:3:0 3:21: "You enter a dark cave",
-            choices: [
-                (
-                    DIR/story--rebase/tests/dump/main.story:4:5 4:9: "gtfo",
-                    DIR/story--rebase/tests/dump/main.story:4:0 4:3: #out,
-                ),
-                (
-                    DIR/story--rebase/tests/dump/main.story:5:10 5:19: "go deeper",
-                    DIR/story--rebase/tests/dump/main.story:5:0 5:8: #corridor,
-                ),
-            ],
-        },
+    ],
+    room_by_name: {
+        #corridor: 1,
+        #deeper: 2,
+        #entrance: 0,
     },
     default: Room {
+        id: <the abyss>:0:0 0:0: #the abyss,
         message: <the abyss>:0:0 0:0: "You fell off the end of the world",
         choices: [],
     },
