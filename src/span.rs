@@ -1,10 +1,18 @@
 use color_eyre::{eyre::Context, Result};
 use std::{fmt::Display, path::PathBuf};
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Spanned<T> {
     pub span: Span,
     pub content: T,
+}
+
+impl<T: std::fmt::Debug> std::fmt::Debug for Spanned<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        std::fmt::Debug::fmt(&self.span, f)?;
+        write!(f, ": ")?;
+        self.content.fmt(f)
+    }
 }
 
 #[derive(Clone)]

@@ -1,109 +1,52 @@
 Story {
     rooms: {
         #corridor: Room {
-            message: Spanned {
-                span: DIR/story--rebase/tests/dump/comments.story:9:0 9:47,
-                content: "It's dark and your steps echo far ahead of your",
-            },
+            message: DIR/story--rebase/tests/dump/comments.story:9:0 9:47: "It's dark and your steps echo far ahead of your",
             choices: [
                 (
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:10:8 10:15,
-                        content: "walk on",
-                    },
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:10:0 10:6,
-                        content: #deeper,
-                    },
+                    DIR/story--rebase/tests/dump/comments.story:10:8 10:15: "walk on",
+                    DIR/story--rebase/tests/dump/comments.story:10:0 10:6: #deeper,
                 ),
                 (
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:12:10 12:16,
-                        content: "return",
-                    },
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:12:0 12:8,
-                        content: #entrance,
-                    },
+                    DIR/story--rebase/tests/dump/comments.story:12:10 12:16: "return",
+                    DIR/story--rebase/tests/dump/comments.story:12:0 12:8: #entrance,
                 ),
             ],
         },
         #deeper: Room {
-            message: Spanned {
-                span: DIR/story--rebase/tests/dump/comments.story:15:0 15:56,
-                content: "You enter a large cavern with glowing moss on the walls.",
-            },
+            message: DIR/story--rebase/tests/dump/comments.story:15:0 15:56: "You enter a large cavern with glowing moss on the walls.",
             choices: [
                 (
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:16:10 16:16,
-                        content: "return",
-                    },
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:16:0 16:8,
-                        content: #corridor,
-                    },
+                    DIR/story--rebase/tests/dump/comments.story:16:10 16:16: "return",
+                    DIR/story--rebase/tests/dump/comments.story:16:0 16:8: #corridor,
                 ),
                 (
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:17:9 17:16,
-                        content: "walk on",
-                    },
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:17:0 17:7,
-                        content: #deeper2,
-                    },
+                    DIR/story--rebase/tests/dump/comments.story:17:9 17:16: "walk on",
+                    DIR/story--rebase/tests/dump/comments.story:17:0 17:7: #deeper2,
                 ),
                 (
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:18:12 18:52,
-                        content: "explore a small crawlspace to your right",
-                    },
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:18:0 18:10,
-                        content: #crawlspace,
-                    },
+                    DIR/story--rebase/tests/dump/comments.story:18:12 18:52: "explore a small crawlspace to your right",
+                    DIR/story--rebase/tests/dump/comments.story:18:0 18:10: #crawlspace,
                 ),
             ],
         },
         #entrance: Room {
-            message: Spanned {
-                span: DIR/story--rebase/tests/dump/comments.story:4:0 4:21,
-                content: "You enter a dark cave",
-            },
+            message: DIR/story--rebase/tests/dump/comments.story:4:0 4:21: "You enter a dark cave",
             choices: [
                 (
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:5:5 5:9,
-                        content: "gtfo",
-                    },
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:5:0 5:3,
-                        content: #out,
-                    },
+                    DIR/story--rebase/tests/dump/comments.story:5:5 5:9: "gtfo",
+                    DIR/story--rebase/tests/dump/comments.story:5:0 5:3: #out,
                 ),
                 (
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:6:10 6:19,
-                        content: "go deeper",
-                    },
-                    Spanned {
-                        span: DIR/story--rebase/tests/dump/comments.story:6:0 6:8,
-                        content: #corridor,
-                    },
+                    DIR/story--rebase/tests/dump/comments.story:6:10 6:19: "go deeper",
+                    DIR/story--rebase/tests/dump/comments.story:6:0 6:8: #corridor,
                 ),
             ],
         },
     },
     default: Room {
-        message: Spanned {
-            span: <the abyss>:0:0 0:0,
-            content: "You fell off the end of the world",
-        },
+        message: <the abyss>:0:0 0:0: "You fell off the end of the world",
         choices: [],
     },
-    room: Spanned {
-        span: DIR/story--rebase/tests/dump/comments.story:1:0 1:8,
-        content: #entrance,
-    },
+    room: DIR/story--rebase/tests/dump/comments.story:1:0 1:8: #entrance,
 }
