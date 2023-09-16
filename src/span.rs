@@ -131,6 +131,16 @@ impl<T> Spanned<T> {
             content,
         }
     }
+
+    pub fn as_ref<U: ?Sized>(&self) -> Spanned<&U>
+    where
+        T: AsRef<U>,
+    {
+        Spanned {
+            span: self.span.clone(),
+            content: self.content.as_ref(),
+        }
+    }
 }
 
 impl Spanned<String> {
@@ -150,7 +160,9 @@ impl Spanned<String> {
             content: story,
         })
     }
+}
 
+impl Spanned<&str> {
     pub fn lines<'a, 'b>(
         &'a self,
         comment_prefix: &'b str,

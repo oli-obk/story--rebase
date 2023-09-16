@@ -13,6 +13,7 @@ pub struct Story {
     pub room_by_name: BTreeMap<RoomId, usize>,
     pub default: Room,
     pub room: Spanned<RoomId>,
+    pub choices: Vec<u8>,
 }
 
 impl std::fmt::Display for Story {
@@ -23,6 +24,7 @@ impl std::fmt::Display for Story {
             room_by_name: _,
             default: _,
             room,
+            choices: _,
         } = self;
 
         writeln!(f, "{main_comment}{}", room.content.id())?;
@@ -77,6 +79,7 @@ impl Story {
     }
 
     pub fn choose(&mut self, idx: usize) -> Result<()> {
+        self.choices.push(idx.try_into()?);
         let choices = &self[&self.room.content].choices;
         self.room = choices
             .get(idx)
@@ -98,6 +101,7 @@ impl Story {
             room_by_name: Default::default(),
             default: Default::default(),
             room: first_room.map(RoomId::new),
+            choices: Default::default(),
         }
     }
 

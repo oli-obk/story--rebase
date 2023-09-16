@@ -17,11 +17,15 @@ fn roundtrip_all() -> Result<()> {
 
 fn roundtrip(path: PathBuf) -> Result<()> {
     let story = Spanned::read_from_file(&path)?;
-    let story = parse(story)?;
+    let story = parse(story.as_ref())?;
     let save = story.to_string();
     let file_content = std::fs::read_to_string(path)?;
     if file_content != save {
-        println!("{} != {}", file_content.lines().count(), save.lines().count());
+        println!(
+            "{} != {}",
+            file_content.lines().count(),
+            save.lines().count()
+        );
         bail!(
             "{}",
             pretty_assertions::StrComparison::new(&file_content, &save)

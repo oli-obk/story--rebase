@@ -6,7 +6,7 @@ fn main() -> Result<()> {
         .nth(1)
         .ok_or_else(|| eyre!("first argument must be a filename to process"))?;
     let story = Spanned::read_from_file(path)?;
-    let mut story = parse(story)?;
+    let mut story = parse(story.as_ref())?;
     let mut lines = std::io::stdin().lines();
     loop {
         story.print_room();

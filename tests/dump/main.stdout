@@ -74,4 +74,5 @@ Story {
         choices: [],
     },
     room: DIR/story--rebase/tests/dump/main.story:1:0 1:8: #corridor,
+    choices: [],
 }

@@ -13,7 +13,7 @@ use room::*;
 use span::*;
 use story::*;
 
-pub fn parse(file_content: Spanned<String>) -> Result<Story> {
+pub fn parse(file_content: Spanned<&str>) -> Result<Story> {
     let mut lines = file_content.lines("//");
     let mut story = Story::new(lines.next().ok_or_else(|| {
         eyre!("expected at least one line stating the starting room in the story file")
