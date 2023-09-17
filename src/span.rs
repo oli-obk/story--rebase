@@ -152,7 +152,7 @@ impl Spanned<String> {
             file: path,
             line_start: 1,
             line_end: story.lines().count() + 1,
-            col_start: 0,
+            col_start: 1,
             col_end: 0,
         };
         Ok(Self {
@@ -167,7 +167,7 @@ impl Spanned<&str> {
         &'a self,
         comment_prefix: &'b str,
     ) -> impl Iterator<Item = Commented<Spanned<&'a str>>> + Captures<'b> {
-        assert_eq!(self.span.col_start, 0);
+        assert_eq!(self.span.col_start, 1);
         let mut prev_comment = None;
         self.content
             .lines()
