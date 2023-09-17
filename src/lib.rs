@@ -4,3 +4,4 @@ pub mod room;
 pub mod span;
 pub mod story;
 pub mod choice;
+pub mod map;

@@ -1,7 +1,7 @@
 Story {
     main_comment: DUMMY_SPAN: "",
-    rooms: [
-        Commented {
+    rooms: {
+        #entrance: Commented {
             comment: DIR/story--rebase/tests/dump/comments.story:3:2 3:8: " hello",
             value: Room {
                 id: DIR/story--rebase/tests/dump/comments.story:4:3 4:11: #entrance,
@@ -27,7 +27,7 @@ Story {
                 ],
             },
         },
-        Commented {
+        #corridor: Commented {
             comment: DUMMY_SPAN: "",
             value: Room {
                 id: DIR/story--rebase/tests/dump/comments.story:9:3 9:11: #corridor,
@@ -53,7 +53,7 @@ Story {
                 ],
             },
         },
-        Commented {
+        #deeper: Commented {
             comment: DUMMY_SPAN: "",
             value: Room {
                 id: DIR/story--rebase/tests/dump/comments.story:15:3 15:9: #deeper,
@@ -86,11 +86,6 @@ Story {
                 ],
             },
         },
-    ],
-    room_by_name: {
-        #corridor: 1,
-        #deeper: 2,
-        #entrance: 0,
     },
     default: Room {
         id: DUMMY_SPAN: #the abyss,

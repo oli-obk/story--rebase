@@ -1,24 +1,18 @@
-use color_eyre::{
-    eyre::{bail, eyre},
-    Result,
-};
+use color_eyre::{eyre::eyre, Result};
 
 use crate::{
     choice::Choice,
     comments::{Comment, Commented},
+    map::SortedMap,
     room::{Room, RoomId},
     span::Spanned,
 };
-use std::{
-    collections::{btree_map::Entry, BTreeMap},
-    ops::Index,
-};
+use std::ops::Index;
 
 #[derive(Debug)]
 pub struct Story {
     pub main_comment: Comment,
-    pub rooms: Vec<Commented<Room>>,
-    pub room_by_name: BTreeMap<RoomId, usize>,
+    pub rooms: SortedMap<RoomId, Commented<Room>>,
     pub default: Room,
     pub room: Spanned<RoomId>,
     pub choices: Vec<u8>,
@@ -29,7 +23,6 @@ impl std::fmt::Display for Story {
         let Self {
             main_comment,
             rooms,
-            room_by_name: _,
             default: _,
             room,
             choices: _,
@@ -37,7 +30,7 @@ impl std::fmt::Display for Story {
 
         writeln!(f, "{main_comment}{}", room.content.id())?;
 
-        for room in rooms {
+        for room in rooms.values() {
             writeln!(f)?;
             write!(f, "{}", room)?;
         }
@@ -48,23 +41,7 @@ impl std::fmt::Display for Story {
 
 impl Story {
     pub fn create_room(&mut self, room: Commented<Room>) -> Result<()> {
-        let idx = self.rooms.len();
-        let id = room.id.clone();
-        self.rooms.push(room);
-        let Spanned { span, content: id } = id;
-        match self.room_by_name.entry(id) {
-            Entry::Occupied(o) => {
-                bail!(
-                    "{span}: previous room with id `{:?}` found: {:?}",
-                    o.key(),
-                    self.rooms[*o.get()]
-                )
-            }
-            Entry::Vacant(e) => {
-                e.insert(idx);
-                Ok(())
-            }
-        }
+        self.rooms.insert(room.id.content.clone(), room)
     }
 
     pub fn print_room(&self) {
@@ -94,7 +71,6 @@ impl Story {
         Self {
             main_comment: first_room.comment,
             rooms: Default::default(),
-            room_by_name: Default::default(),
             default: Default::default(),
             room: first_room.value.map(RoomId::new),
             choices: Default::default(),
@@ -110,9 +86,9 @@ impl Index<&RoomId> for Story {
     type Output = Room;
 
     fn index(&self, index: &RoomId) -> &Self::Output {
-        self.room_by_name
+        self.rooms
             .get(index)
-            .map(|&i| &self.rooms[i].value)
+            .map(|r| &r.value)
             .unwrap_or(&self.default)
     }
 }

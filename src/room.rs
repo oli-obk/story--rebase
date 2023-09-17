@@ -44,7 +44,7 @@ impl Display for Room {
     }
 }
 
-#[derive(Eq, PartialEq, PartialOrd, Ord, Clone)]
+#[derive(Eq, PartialEq, Hash, Clone)]
 pub struct RoomId(String);
 
 impl std::fmt::Debug for RoomId {
