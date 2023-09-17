@@ -4,10 +4,10 @@ use color_eyre::{
 };
 
 use crate::{
+    comments::Commented,
     room::{Choice, Room, RoomId},
     span::Spanned,
     story::Story,
-    Commented,
 };
 
 pub fn parse(file_content: Spanned<&str>) -> Result<Story> {
@@ -26,7 +26,7 @@ pub fn parse(file_content: Spanned<&str>) -> Result<Story> {
         "{}expected an empty line after the starting room",
         line.span,
     );
-    assert_eq!(line.comment.0.content, "");
+    assert_eq!(line.comment.text(), "");
 
     while let Some(line) = lines.next() {
         let room = parse_room(line, &mut lines)?;

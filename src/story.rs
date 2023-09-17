@@ -1,6 +1,13 @@
-use color_eyre::eyre::eyre;
+use color_eyre::{
+    eyre::{bail, eyre},
+    Result,
+};
 
-use crate::*;
+use crate::{
+    comments::{Comment, Commented},
+    room::{Room, RoomId},
+    span::Spanned,
+};
 use std::{
     collections::{btree_map::Entry, BTreeMap},
     ops::Index,

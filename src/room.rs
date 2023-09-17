@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::{span::Spanned, Commented};
+use crate::{comments::Commented, span::Spanned};
 
 #[derive(Debug)]
 pub struct Room {

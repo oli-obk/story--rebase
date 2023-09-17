@@ -1,7 +1,7 @@
 use color_eyre::{eyre::Context, Result};
 use std::{fmt::Display, path::PathBuf};
 
-use crate::{Comment, Commented};
+use crate::{comments::Comment, comments::Commented};
 
 #[derive(Clone)]
 pub struct Spanned<T> {
@@ -192,7 +192,7 @@ impl Spanned<&str> {
 
                     None
                 } else {
-                    Some(comment.map(Comment).unwrap_or_default().with(line))
+                    Some(comment.map(Comment::new).unwrap_or_default().with(line))
                 }
             })
     }
