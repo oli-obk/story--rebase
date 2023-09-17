@@ -47,7 +47,7 @@ impl Display for Comment {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Commented<T> {
     pub comment: Comment,
     pub value: T,

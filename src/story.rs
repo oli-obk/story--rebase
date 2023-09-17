@@ -4,6 +4,7 @@ use color_eyre::{
 };
 
 use crate::{
+    choice::Choice,
     comments::{Comment, Commented},
     room::{Room, RoomId},
     span::Spanned,
@@ -77,7 +78,7 @@ impl Story {
     pub fn choose(&mut self, idx: usize) -> Result<()> {
         self.choices.push(idx.try_into()?);
         let choices = &self[&self.room.content].choices;
-        self.room = choices
+        let choice: Commented<Choice> = choices
             .get(idx)
             .ok_or_else(|| {
                 eyre!(
@@ -85,9 +86,8 @@ impl Story {
                     choices.len()
                 )
             })?
-            .target
             .clone();
-        Ok(())
+        choice.apply(self)
     }
 
     pub fn new(first_room: Commented<Spanned<impl Into<String>>>) -> Self {
