@@ -3,3 +3,4 @@ pub mod parsing;
 pub mod room;
 pub mod span;
 pub mod story;
+pub mod choice;

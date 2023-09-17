@@ -4,8 +4,9 @@ use color_eyre::{
 };
 
 use crate::{
+    choice::Choice,
     comments::Commented,
-    room::{Choice, Room, RoomId},
+    room::{Room, RoomId},
     span::Spanned,
     story::Story,
 };
