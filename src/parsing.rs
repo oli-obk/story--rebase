@@ -4,6 +4,7 @@ use color_eyre::{
 };
 
 use crate::{
+    action::Action,
     choice::Choice,
     comments::Commented,
     room::{Room, RoomId},
@@ -55,17 +56,72 @@ fn parse_room<'a>(
         if line.is_empty() {
             break;
         }
+        room.choices.push(parse_choice(line)?);
+    }
+
+    Ok(comment.with(room))
+}
+
+fn parse_choice(
+    Commented {
+        comment,
+        value: line,
+    }: Commented<Spanned<&str>>,
+) -> Result<Commented<Choice>> {
+    let (repetitions, line) = if let Some(line) = line.strip_prefix("{") {
+        let Some((n, line)) = line.split_once("}") else {
+            bail!("{}: repetition marker must end in `}}`", line.span);
+        };
+        (Some(n.parse()?), line)
+    } else {
+        (None, line)
+    };
+    let (action, message) = if let Some(command) = line.strip_prefix("[") {
+        let Some((command, rest)) = command.split_once("]") else {
+            bail!("{}: commands must be closed with `]`", command.span)
+        };
+        (parse_action(command)?, rest)
+    } else {
         let Some((next, message)) = line.split_once(":") else {
             bail!(
                 "{}: room choices must start with a room name followed by a colon",
                 line.span
             )
         };
-        room.choices.push(line.comment.with(Choice {
-            message: message.trim_start().map(Into::into),
-            target: next.map(RoomId::new),
-        }));
-    }
+        (Action::Goto(next.map(RoomId::new)), message)
+    };
 
-    Ok(comment.with(room))
+    Ok(comment.with(Choice {
+        message: message.trim_start().map(Into::into),
+        repetitions,
+        action,
+    }))
+}
+
+fn parse_action(command: Spanned<&str>) -> Result<Action> {
+    let Some((room, rest)) = command.split_once(".") else {
+        bail!("{}: invalid room to act upon", command.span)
+    };
+    let room = room.trim();
+    let Some((what, rest)) = rest.take_while(|c| c.is_alphanumeric()) else {
+        bail!("{}: invalid room content to modify", rest.span);
+    };
+    panic!("{rest:?}");
+    let rest = rest.trim_start();
+    let Some((operator, rest)) = rest.take_while(|c| is_operator_sigil(c)) else {
+        bail!("{}: need something after operator", rest.span);
+    };
+    let operator = operator.parse()?;
+    let rest = rest.trim_start();
+    let amount = rest.parse()?;
+    Ok(Action::Modify {
+        operator,
+        amount,
+        what: what.map(Into::into),
+        room: room.map(RoomId::new),
+    })
+}
+
+fn is_operator_sigil(c: char) -> bool {
+    matches!(c, '=' | '+' | '-')
 }

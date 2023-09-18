@@ -1,12 +1,13 @@
 use std::fmt::Display;
 
-use crate::{choice::Choice, comments::Commented, span::Spanned};
+use crate::{choice::Choice, comments::Commented, map::SortedMap, span::Spanned};
 
 #[derive(Debug)]
 pub struct Room {
     pub id: Spanned<RoomId>,
     pub message: Commented<Spanned<String>>,
     pub choices: Vec<Commented<Choice>>,
+    pub items: SortedMap<String, usize>,
 }
 
 impl Default for Room {
@@ -24,6 +25,7 @@ impl Room {
             id,
             message: message.map(|message| message.map(Into::into)),
             choices: Default::default(),
+            items: Default::default(),
         }
     }
 }
@@ -34,11 +36,15 @@ impl Display for Room {
             id,
             message,
             choices,
+            items,
         } = self;
         writeln!(f, "## {}", id.content.id())?;
         writeln!(f, "{}", message.as_ref().map(|message| &message.content))?;
         for choice in choices {
             writeln!(f, "{choice}")?;
+        }
+        for (item, amount) in items.iter() {
+            writeln!(f, "{item} = {amount}")?;
         }
         Ok(())
     }

@@ -39,6 +39,22 @@ impl<K: Eq + PartialEq + Hash + Debug, V: Debug> SortedMap<K, V> {
         }
     }
 
+    pub fn get_or_insert_default(&mut self, key: K) -> &mut V
+    where
+        V: Default,
+    {
+        let idx = match self.entry_by_key.entry(key) {
+            Entry::Occupied(o) => *o.get(),
+            Entry::Vacant(v) => {
+                let idx = self.entries.len();
+                v.insert(idx);
+                self.entries.push(Default::default());
+                idx
+            }
+        };
+        &mut self.entries[idx]
+    }
+
     pub fn get(&self, index: &K) -> Option<&V> {
         Some(&self.entries[*self.entry_by_key.get(index)?])
     }

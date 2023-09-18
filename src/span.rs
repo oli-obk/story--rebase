@@ -1,5 +1,5 @@
-use color_eyre::{eyre::Context, Result};
-use std::{fmt::Display, path::PathBuf};
+use color_eyre::{eyre::Context, Report, Result};
+use std::{fmt::Display, path::PathBuf, str::FromStr};
 
 use crate::{comments::Comment, comments::Commented};
 
@@ -68,15 +68,31 @@ impl Display for Span {
 impl Spanned<&str> {
     pub fn split_once(&self, delimiter: &str) -> Option<(Self, Self)> {
         let (a, b) = self.content.split_once(delimiter)?;
-        let n = a.chars().count();
         let mut span = self.span.clone();
-        span.col_end = n;
+        span.col_end -= b.chars().count();
         let a = Spanned { span, content: a };
         let mut span = self.span.clone();
-        span.col_start = n + 1;
+        span.col_start += a.content.chars().count() + 1;
         let b = Spanned { span, content: b };
         Some((a, b))
     }
+
+    pub fn take_while(&self, delimiter: impl Fn(char) -> bool) -> Option<(Self, Self)> {
+        let pos = self.content.find(|c| !delimiter(c))?;
+        Some(self.split_at(pos))
+    }
+
+    pub fn split_at(&self, pos: usize) -> (Self, Self) {
+        let (a, b) = self.content.split_at(pos);
+        let mut span = self.span.clone();
+        span.col_end -= b.chars().count();
+        let a = Spanned { span, content: a };
+        let mut span = self.span.clone();
+        span.col_start += a.content.chars().count() + 1;
+        let b = Spanned { span, content: b };
+        (a, b)
+    }
+
     pub fn trim_end(&self) -> Self {
         let content = self.content.trim_end();
         let n = self.content[content.len()..].chars().count();
@@ -115,6 +131,21 @@ impl Spanned<&str> {
 
     pub fn starts_with(&self, pat: &str) -> bool {
         self.content.starts_with(pat)
+    }
+
+    pub fn parse<T: FromStr>(self) -> Result<Spanned<T>>
+    where
+        T::Err: Into<Report>,
+    {
+        let content = self
+            .content
+            .parse()
+            .map_err(Into::into)
+            .with_context(|| self.span.clone())?;
+        Ok(Spanned {
+            span: self.span,
+            content,
+        })
     }
 }
 
